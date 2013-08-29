@@ -16,10 +16,12 @@ public abstract class VGetParser {
     static public class VideoDownload {
         public VideoQuality vq;
         public URL url;
+		public String itag;
 
-        public VideoDownload(VideoQuality vq, URL u) {
+        public VideoDownload(VideoQuality vq, URL u, String itag) {
             this.vq = vq;
             this.url = u;
+            this.itag=itag;
         }
     }
 
@@ -55,22 +57,37 @@ public abstract class VGetParser {
         for (int i = 0; i < sNextVideoURL.size(); i++) {
             VideoDownload v = sNextVideoURL.get(i);
 
-            boolean found = true;
-
-            if (vvi.getUserQuality() != null)
-                found &= vvi.getUserQuality().equals(v.vq);
-
-            if (found) {
-                vvi.setVideoQuality(v.vq);
-                DownloadInfo info = new DownloadInfo(v.url);
-                vvi.setInfo(info);
-                return;
+            boolean found_quality = true;
+            boolean found_itag = true;
+            
+            if (vvi.getUserItag() != null) {
+            	found_itag &= vvi.getUserItag().equals(v.itag);
+	            if (found_itag) {
+	                vvi.setVideoQuality(v.vq);
+	                vvi.setVideoItag(v.itag);
+	                DownloadInfo info = new DownloadInfo(v.url);
+	                vvi.setInfo(info);
+	                return;
+	            }
+            	
             }
+            else {
+	            if (vvi.getUserQuality() != null)
+	            	found_quality &= vvi.getUserQuality().equals(v.vq);  
+	            
+	            if (found_quality) {
+	                vvi.setVideoQuality(v.vq);
+	                vvi.setVideoItag(v.itag);
+	                DownloadInfo info = new DownloadInfo(v.url);
+	                vvi.setInfo(info);
+	                return;
+	            }
+           }
         }
 
         // throw download stop if user choice not maximum quality and we have no
         // video rendered by youtube
-        throw new DownloadError("no video with required quality found,"
+        throw new DownloadError("no video with required quality and itag found,"
                 + " increace VideoInfo.setVq to the maximum and retry download");
     }
 }

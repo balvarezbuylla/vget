@@ -71,16 +71,21 @@ public class AppManagedDownload {
             //
             // if youtube does not have video with requested quality, program
             // will loop indefinitely in the retry loop.
-            info.setUserQuality(VideoQuality.p480);
+            info.setUserQuality(VideoQuality.p360);
+            info.setUserItag("18");
 
-            VGet v = new VGet(info, new File("/Users/axet/Downloads"));
+            VGet v = new VGet(info, new File("/home/bea"));
 
             // [OPTIONAL] call v.extract() only if you d like to get video title
             // before start download. or just skip it.
+            
+            
             v.extract(stop, notify);
             System.out.println(info.getTitle());
 
             v.download(stop, notify);
+            System.out.println(info.getUserItag());
+            
         } catch (RuntimeException e) {
             throw e;
         } catch (Exception e) {

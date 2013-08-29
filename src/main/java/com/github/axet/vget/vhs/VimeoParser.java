@@ -158,10 +158,10 @@ public class VimeoParser extends VGetParser {
 
             // can be 1080p or 720p
             if (qualities.contains("hd"))
-                sNextVideoURL.add(new VideoDownload(VideoQuality.p1080, new URL(hd)));
+                sNextVideoURL.add(new VideoDownload(VideoQuality.p1080, new URL(hd), "18"));
             // can be 360p or 480p
             if (qualities.contains("sd"))
-                sNextVideoURL.add(new VideoDownload(VideoQuality.p480, new URL(sd)));
+                sNextVideoURL.add(new VideoDownload(VideoQuality.p480, new URL(sd), "18"));
 
             info.setIcon(new URL(icon));
         } catch (MalformedURLException e) {

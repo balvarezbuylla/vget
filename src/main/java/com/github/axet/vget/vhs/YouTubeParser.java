@@ -134,11 +134,11 @@ public class YouTubeParser extends VGetParser {
     void addVideo(String itag, String url) throws MalformedURLException {
         Integer i = Integer.decode(itag);
         VideoQuality vd = itagMap.get(i);
-
+        
         URL u = new URL(url);
 
         if (u != null)
-            sNextVideoURL.add(new VideoDownload(vd, u));
+            sNextVideoURL.add(new VideoDownload(vd, u, i.toString()));
     }
 
     // http://en.wikipedia.org/wiki/YouTube#Quality_and_codecs
